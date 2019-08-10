@@ -2,22 +2,12 @@ import React from 'react' // мы обязаны импортировать не
 import PropTypes from 'prop-types' // у Article это react и prop-types
 
 class Add extends React.Component {
-    constructor(props) {
-        super(props);
-        this.input = React.createRef();
-    }
-
     state = {
         author:      '',
         text:        '',
         agree:       false,
         isFormValid: false,
     };
-
-    componentDidMount() {
-        // ставим фокус в input
-        this.input.current.focus();
-    }
 
     validate = () => {
         const { author, text, agree } = this.state;
@@ -35,7 +25,8 @@ class Add extends React.Component {
         });
     };
 
-    onClickHandler = () => {
+    onClickHandler = (e) => {
+        e.preventDefault();
         let { author, text } = this.state;
         const id = +new Date();
         const textLength = text.length;
@@ -58,8 +49,7 @@ class Add extends React.Component {
                         className='add__author'
                         onChange={this.onChangeHandler}
                         value={author}
-                        placeholder='Type your name'
-                        ref={this.input}/>
+                        placeholder='Type your name'/>
                     <textarea
                         id='text'
                         className='add__text'
@@ -76,7 +66,7 @@ class Add extends React.Component {
                         className='add__btn'
                         onClick={this.onClickHandler}
                         disabled={!this.validate()}>
-                        Click on me
+                        Add news
                     </button>
                 </form>
             </React.Fragment>

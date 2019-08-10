@@ -11,7 +11,7 @@ class News extends React.Component {
             && data.length) {
             newsTemplate = data.map(function (item) {
                 return (
-                    <Article key={item.id} articleData={item}/>
+                    <Article key={item.id} data={item}/>
                 );
             });
         } else {

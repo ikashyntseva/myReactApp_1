@@ -9,18 +9,34 @@ class Article extends React.Component {
     handleReadMoreClick = (e) => { // добавили метод
         e.preventDefault();
         this.setState({ visible: true });
+
+    };
+
+    insertReadMore = () => {
+        const { bigText } = this.props.data;
+        const { visible } = this.state;
+        let html = null;
+
+        if (bigText) {
+            if (visible) {
+                html = <p className="news__big-text">{bigText}</p>;
+            } else {
+                html = <a href="#readmore" onClick={this.handleReadMoreClick} className='news__read-more'>More</a>;
+            }
+        }
+
+        return html;
     };
 
     render() {
-        const { author, text, bigText } = this.props.articleData;
-        const { visible } = this.state;
+        const { author, text } = this.props.data;
+
         return (
             <div className="article">
                 <p className="news__author">{author}:</p>
                 <p className="news__text">{text}</p>
                 {
-                    visible ? <p className="news__big-text">{bigText}</p> :
-                        <a href="#readmore" onClick={this.handleReadMoreClick} className='news__read-more'>More</a>
+                    this.insertReadMore()
                 }
             </div>
         );
@@ -28,7 +44,7 @@ class Article extends React.Component {
 }
 
 Article.propTypes = {
-    articleData: PropTypes.shape({
+    data: PropTypes.shape({
         id:      PropTypes.number.isRequired,
         author:  PropTypes.string.isRequired,
         text:    PropTypes.string.isRequired,
