@@ -3,7 +3,14 @@ import PropTypes from 'prop-types'
 
 export class User extends React.Component {
   renderTemplate = () => {
-    const { name, error, isFetching } = this.props
+    const {
+      name,
+      avatar,
+      error,
+      isFetching,
+      handleLogin,
+      handleLogout,
+    } = this.props
 
     if (error) {
       return <p>Во время запроса произошла ошибка, обновите страницу</p>
@@ -14,11 +21,19 @@ export class User extends React.Component {
     }
 
     if (name) {
-      return <p>Привет, {name}!</p>
+      return (
+        <React.Fragment>
+          <p>Привет, {name}!</p>
+          <img className="avatar" src={avatar} alt="Avatar" />
+          <button className="btn btn-sign-out" onClick={handleLogout}>
+            Sign Out
+          </button>
+        </React.Fragment>
+      )
     } else {
       return (
-        <button className="btn" onClick={this.props.handleLogin}>
-          Войти
+        <button className="btn" onClick={handleLogin}>
+          Sign In
         </button>
       )
     }
@@ -30,7 +45,9 @@ export class User extends React.Component {
 
 User.propTypes = {
   name: PropTypes.string.isRequired,
+  avatar: PropTypes.string,
   error: PropTypes.string,
   isFetching: PropTypes.bool.isRequired,
   handleLogin: PropTypes.func.isRequired,
+  handleLogout: PropTypes.func.isRequired,
 }

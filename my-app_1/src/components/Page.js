@@ -19,7 +19,7 @@ export class Page extends React.Component {
       return photos.map(entry => (
         <div key={entry.id} className="photo">
           <p>
-            <img src={entry.sizes[0].url} alt="" />
+            <img src={entry.sizes[3].url} alt="" />
           </p>
           <p>{entry.likes.count} ❤</p>
         </div>

@@ -4,6 +4,7 @@ import { User } from '../components/User'
 import { Page } from '../components/Page'
 import { getPhotos } from '../actions/PageActions'
 import { handleLogin } from '../actions/UserActions'
+import { handleLogout } from '../actions/UserActions'
 
 class App extends Component {
   renderPageTemplate = () => {
@@ -23,25 +24,30 @@ class App extends Component {
   }
   render() {
     // вытащили handleLoginAction из this.props
-    const { user, handleLoginAction } = this.props
+    const { user, handleLoginAction, handleLogoutAction } = this.props
     return (
-      <div className="app">
-        {/* добавили новые props для User */}
-        <User
-          name={user.name}
-          isFetching={user.isFetching}
-          error={user.error}
-          handleLogin={handleLoginAction}
-        />
+      <React.Fragment>
+        <header className="page-title">
+          <h1>VK Gallery</h1>
+          <User
+            name={user.name}
+            avatar={user.avatar}
+            isFetching={user.isFetching}
+            error={user.error}
+            handleLogin={handleLoginAction}
+            handleLogout={handleLogoutAction}
+          />
+        </header>
+
         {this.renderPageTemplate()}
-      </div>
+      </React.Fragment>
     )
   }
 }
 
 const mapStateToProps = store => {
   return {
-    user: store.user, // вытащили из стора (из редьюсера user все в переменную thid.props.user)
+    user: store.user,
     page: store.page,
   }
 }
@@ -49,8 +55,8 @@ const mapStateToProps = store => {
 const mapDispatchToProps = dispatch => {
   return {
     getPhotosAction: year => dispatch(getPhotos(year)),
-    // "приклеили" в this.props.handleLoginAction функцию, которая умеет диспатчить handleLogin
     handleLoginAction: () => dispatch(handleLogin()),
+    handleLogoutAction: () => dispatch(handleLogout()),
   }
 }
 
