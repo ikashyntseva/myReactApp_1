@@ -7,7 +7,6 @@ const initialState = {
 }
 
 export function pageReducer(state = initialState, action) {
-  debugger
   switch (action.type) {
     case GET_PHOTOS_REQUEST:
       return { ...state, year: action.payload, isFetching: true }
