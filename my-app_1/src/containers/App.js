@@ -3,30 +3,45 @@ import { connect } from 'react-redux'
 import { User } from '../components/User'
 import { Page } from '../components/Page'
 import { getPhotos } from '../actions/PageActions'
-
-import '../styles/App.css'
+import { handleLogin } from '../actions/UserActions'
 
 class App extends Component {
-  render() {
+  renderPageTemplate = () => {
     const { user, page, getPhotosAction } = this.props
 
-    return (
-      <div className="row">
+    if (user.name) {
+      return (
         <Page
           photos={page.photos}
           year={page.year}
           isFetching={page.isFetching}
+          error={page.error}
           getPhotos={getPhotosAction}
         />
-        <User name={user.name} />
+      )
+    }
+  }
+  render() {
+    // вытащили handleLoginAction из this.props
+    const { user, handleLoginAction } = this.props
+    return (
+      <div className="app">
+        {/* добавили новые props для User */}
+        <User
+          name={user.name}
+          isFetching={user.isFetching}
+          error={user.error}
+          handleLogin={handleLoginAction}
+        />
+        {this.renderPageTemplate()}
       </div>
     )
   }
 }
-// приклеиваем данные из store
+
 const mapStateToProps = store => {
   return {
-    user: store.user,
+    user: store.user, // вытащили из стора (из редьюсера user все в переменную thid.props.user)
     page: store.page,
   }
 }
@@ -34,10 +49,10 @@ const mapStateToProps = store => {
 const mapDispatchToProps = dispatch => {
   return {
     getPhotosAction: year => dispatch(getPhotos(year)),
+    // "приклеили" в this.props.handleLoginAction функцию, которая умеет диспатчить handleLogin
+    handleLoginAction: () => dispatch(handleLogin()),
   }
 }
-
-// в наш компонент App, с помощью connect(mapStateToProps)
 
 export default connect(
   mapStateToProps,
