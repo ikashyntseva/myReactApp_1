@@ -23,7 +23,7 @@ export class User extends React.Component {
     if (name) {
       return (
         <React.Fragment>
-          <p>Привет, {name}!</p>
+          <p>Hi, {name}!</p>
           <img className="avatar" src={avatar} alt="Avatar" />
           <button className="btn btn-sign-out" onClick={handleLogout}>
             Sign Out
@@ -39,11 +39,13 @@ export class User extends React.Component {
     }
   }
   render() {
-    return <div className="ib user">{this.renderTemplate()}</div>
+    const userStatusClass = this.props.name ? 'ib user logged-in' : 'ib user'
+    return <div className={userStatusClass}>{this.renderTemplate()}</div>
   }
 }
 
 User.propTypes = {
+  isLoggedin: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
   avatar: PropTypes.string,
   error: PropTypes.string,
