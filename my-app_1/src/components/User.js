@@ -45,7 +45,6 @@ export class User extends React.Component {
 }
 
 User.propTypes = {
-  isLoggedin: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
   avatar: PropTypes.string,
   error: PropTypes.string,

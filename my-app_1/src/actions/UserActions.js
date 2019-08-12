@@ -12,6 +12,7 @@ export function handleLogin() {
 
     //eslint-disable-next-line no-undef
     VK.Auth.login(async r => {
+      debugger
       if (r.session) {
         console.log(r)
         let { first_name, id } = r.session.user
@@ -24,7 +25,7 @@ export function handleLogin() {
             r => {
               try {
                 const { items } = r.response
-                const avatarUrl = items[items.length - 1].sizes[0].url
+                const avatarUrl = items.pop().sizes[0].url
 
                 resolve(avatarUrl)
               } catch (e) {
