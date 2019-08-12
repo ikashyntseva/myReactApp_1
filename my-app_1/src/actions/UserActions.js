@@ -1,10 +1,11 @@
+import { getAvatarPromise } from '../util/avatar'
 export const LOGIN_REQUEST = 'LOGIN_REQUEST'
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const LOGIN_FAIL = 'LOGIN_FAIL'
 export const LOGOUT_REQUEST = 'LOGOUT_REQUEST'
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
 
-export function handleLogin() {
+export function handleLogin(callback) {
   return function(dispatch) {
     dispatch({
       type: LOGIN_REQUEST,
@@ -12,29 +13,11 @@ export function handleLogin() {
 
     //eslint-disable-next-line no-undef
     VK.Auth.login(async r => {
-      debugger
       if (r.session) {
-        console.log(r)
         let { first_name, id } = r.session.user
+        let avatar = await getAvatarPromise()
 
-        let getAvatarPromise = new Promise(resolve => {
-          //eslint-disable-next-line no-undef
-          VK.Api.call(
-            'photos.get',
-            { album_id: 'profile', rev: 0, v: '5.101' },
-            r => {
-              try {
-                const { items } = r.response
-                const avatarUrl = items.pop().sizes[0].url
-
-                resolve(avatarUrl)
-              } catch (e) {
-                debugger
-              }
-            }
-          )
-        })
-        let avatar = await getAvatarPromise
+        callback()
         dispatch({
           type: LOGIN_SUCCESS,
           payload: { first_name, id, avatar },

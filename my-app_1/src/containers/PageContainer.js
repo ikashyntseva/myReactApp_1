@@ -13,23 +13,28 @@ class PageContainer extends React.Component {
     this.years = getLastYears(LAST_5_YEARS)
   }
   render() {
-    const { page, getPhotos } = this.props
-    const { photos, error, isFetching } = page
-    return (
-      <Page
-        years={this.years}
-        photos={photos}
-        error={error}
-        isFetching={isFetching}
-        getPhotos={getPhotos}
-      />
-    )
+    const { page, user, getPhotos } = this.props
+    const { year, photos, error, isFetching } = page
+    if (user.name) {
+      return (
+        <Page
+          year={year}
+          years={this.years}
+          photos={photos}
+          error={error}
+          isFetching={isFetching}
+          getPhotos={getPhotos}
+        />
+      )
+    }
+    return ''
   }
 }
 
 const mapStoreToProps = store => {
   return {
     page: store.page,
+    user: store.user,
   }
 }
 

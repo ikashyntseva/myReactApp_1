@@ -38,9 +38,13 @@ export class Page extends React.Component {
     })
   }
   render() {
+    const { year, photos } = this.props
     return (
       <div className="ib page">
         <p>{this.renderButtons()}</p>
+        <h3>
+          {year} год [{photos.length}]
+        </h3>
         {this.renderTemplate()}
       </div>
     )
@@ -48,6 +52,7 @@ export class Page extends React.Component {
 }
 
 Page.propTypes = {
+  year: PropTypes.number.isRequired,
   years: PropTypes.array.isRequired,
   photos: PropTypes.array.isRequired,
   getPhotos: PropTypes.func.isRequired,

@@ -39,6 +39,7 @@ export class User extends React.Component {
     }
   }
   render() {
+    console.log('User rendered')
     const userStatusClass = this.props.name ? 'ib user logged-in' : 'ib user'
     return <div className={userStatusClass}>{this.renderTemplate()}</div>
   }
