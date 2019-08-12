@@ -26,33 +26,21 @@ export class Page extends React.Component {
       ))
     }
   }
+  renderButtons = () => {
+    const { years } = this.props
+
+    return years.map((item, index) => {
+      return (
+        <button key={index} className="btn" onClick={this.onYearBtnClick}>
+          {item}
+        </button>
+      )
+    })
+  }
   render() {
-    const { year, photos } = this.props
     return (
       <div className="ib page">
-        <p>
-          <button className="btn" onClick={this.onYearBtnClick}>
-            2019
-          </button>
-          <button className="btn" onClick={this.onYearBtnClick}>
-            2018
-          </button>
-          <button className="btn" onClick={this.onYearBtnClick}>
-            2017
-          </button>
-          <button className="btn" onClick={this.onYearBtnClick}>
-            2016
-          </button>
-          <button className="btn" onClick={this.onYearBtnClick}>
-            2015
-          </button>
-          <button className="btn" onClick={this.onYearBtnClick}>
-            2014
-          </button>
-        </p>
-        <h3>
-          {year} год [{photos.length}]
-        </h3>
+        <p>{this.renderButtons()}</p>
         {this.renderTemplate()}
       </div>
     )
@@ -60,7 +48,7 @@ export class Page extends React.Component {
 }
 
 Page.propTypes = {
-  year: PropTypes.number.isRequired,
+  years: PropTypes.array.isRequired,
   photos: PropTypes.array.isRequired,
   getPhotos: PropTypes.func.isRequired,
   error: PropTypes.string,

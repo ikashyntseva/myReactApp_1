@@ -4,8 +4,10 @@ import {
   GET_PHOTOS_FAIL,
 } from '../actions/PageActions'
 
+import { getCurrentYear } from '../util/date'
+
 const initialState = {
-  year: 2016, //new Date().getFullYear(),
+  year: getCurrentYear(),
   photos: [],
   isFetching: false,
   error: '',
