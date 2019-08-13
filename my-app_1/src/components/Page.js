@@ -21,7 +21,9 @@ export class Page extends React.Component {
           <p>
             <img src={entry.sizes[3].url} alt="" />
           </p>
-          <p>{entry.likes.count} ❤</p>
+          <p>
+            {entry.likes.count} <span className="heart">❤</span>
+          </p>
         </div>
       ))
     }

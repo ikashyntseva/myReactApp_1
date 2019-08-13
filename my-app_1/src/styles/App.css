@@ -113,6 +113,10 @@ h3 {
   width: 100%;
 }
 
+.photo .heart {
+  color: #FF0000;
+}
+
 .photo p:first-child {
   max-height: 130px;
   overflow-y: hidden;
@@ -135,6 +139,7 @@ header {
   justify-content: space-between;
   padding: 10px 20px;
   box-sizing: border-box;
+  align-items: center;
 }
 
 header h1 {
