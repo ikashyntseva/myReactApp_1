@@ -28,12 +28,13 @@ function getMorePhotos(offset, count, year, dispatch) {
     { extended: 1, count: count, offset: offset, v: '5.101' },
     r => {
       try {
-        photosArr = photosArr.concat(r.response.items)
-        console.log(r.response)
-        if (offset <= r.response.count) {
+        const { items } = r.response
+        photosArr = photosArr.concat(items)
+        if (items.length >= offset) {
           offset += 200 // максимальное количество фото которое можно получить за 1 запрос
           getMorePhotos(offset, count, year, dispatch)
         } else {
+          debugger
           let photos = makeYearPhotos(photosArr, year)
           cached = true
           dispatch({

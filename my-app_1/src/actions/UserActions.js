@@ -17,11 +17,12 @@ export function handleLogin(callback) {
         let { first_name, id } = r.session.user
         let avatar = await getAvatarPromise()
 
-        callback()
         dispatch({
           type: LOGIN_SUCCESS,
           payload: { first_name, id, avatar },
         })
+
+        callback()
       } else {
         dispatch({
           type: LOGIN_FAIL,
