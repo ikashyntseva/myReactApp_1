@@ -39,6 +39,7 @@ const mapStoreToProps = store => {
 }
 
 const mapDispatchToProps = dispatch => {
+  debugger
   return {
     getPhotos: year => dispatch(getPhotos(year)),
   }

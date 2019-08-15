@@ -4,20 +4,18 @@ export class AddTask extends Component {
   constructor(props) {
     super(props);
     this.input = React.createRef();
-    this.state = { isDisabled: true };
   }
 
-  handleOnChange = () => {
-    this.setState({ isDisabled: !this.input.current.value.length });
+  handleOnChange = e => {
+    this.props.inputTask(e.target.value);
   };
 
   addTask = () => {
     const currentTaskName = this.input.current.value;
     if (currentTaskName.length) {
-      this.props.addTask(currentTaskName);
       this.input.current.value = "";
       this.input.current.focus();
-      this.setState({ isDisabled: true });
+      this.props.handleAddTask(currentTaskName);
     }
   };
 
@@ -31,16 +29,18 @@ export class AddTask extends Component {
     this.input.current.focus();
   }
   render() {
+    const { name } = this.props.listData;
     return (
       <React.Fragment>
         <input
           type="text"
           placeholder="Task"
           ref={this.input}
+          defaultValue=""
           onKeyDown={this.onEnterPress}
           onChange={this.handleOnChange}
         />
-        <button onClick={this.addTask} disabled={this.state.isDisabled}>
+        <button onClick={this.addTask} disabled={!name.length}>
           Create task
         </button>
       </React.Fragment>

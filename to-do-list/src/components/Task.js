@@ -2,11 +2,11 @@ import React, { Component } from "react";
 
 export class Task extends Component {
   render() {
-    const { name } = this.props;
+    const { task } = this.props;
     return (
-      <li>
+      <li className="task">
         <label>
-          <span>{name}</span>
+          <span>{task}</span>
           <input type="checkbox" />
         </label>
       </li>

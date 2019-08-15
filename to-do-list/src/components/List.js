@@ -5,10 +5,14 @@ export class List extends Component {
   renderTasks = () => {
     const { tasks } = this.props;
     return tasks.map(task => {
-      return <Task key={task.id} name={task.name} />;
+      return <Task key={task.id} task={task.name} />;
     });
   };
   render() {
-    return <ol>{this.renderTasks()}</ol>;
+    return (
+      <React.Fragment>
+        <ul className="list">{this.renderTasks()}</ul>
+      </React.Fragment>
+    );
   }
 }
