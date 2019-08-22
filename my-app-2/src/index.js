@@ -3,7 +3,11 @@ import ReactDOM from 'react-dom'
 import './index.css'
 
 const initialState = {
-  squares: Array(9).fill(null),
+  history: [
+    {
+      squares: Array(9).fill(null),
+    },
+  ],
   xIsNext: true,
   isWinner: false,
 }
@@ -17,6 +21,58 @@ function Square(props) {
 }
 
 class Board extends Component {
+  renderSquare(i) {
+    return (
+      <Square
+        value={this.props.squares[i]}
+        onClick={() => this.props.handleClick(i)}
+      />
+    )
+  }
+
+  render() {
+    const status = this.props.isWinner
+      ? `Winner: ${this.props.xIsNext ? 'O' : 'X'}`
+      : `Next player: ${this.props.xIsNext ? 'X' : 'O'}`
+
+    return (
+      <div>
+        <div className="status">{status}</div>
+        <div className="board-row">
+          {this.renderSquare(0)}
+          {this.renderSquare(1)}
+          {this.renderSquare(2)}
+        </div>
+        <div className="board-row">
+          {this.renderSquare(3)}
+          {this.renderSquare(4)}
+          {this.renderSquare(5)}
+        </div>
+        <div className="board-row">
+          {this.renderSquare(6)}
+          {this.renderSquare(7)}
+          {this.renderSquare(8)}
+        </div>
+      </div>
+    )
+  }
+}
+
+class Reset extends Component {
+  render() {
+    return (
+      <button
+        className="btn-reset"
+        disabled={this.props.disabled}
+        onClick={this.props.onClick}
+      >
+        Reset
+      </button>
+    )
+  }
+}
+
+class Game extends Component {
   constructor(props) {
     super(props)
     this.state = initialState
@@ -47,13 +103,15 @@ class Board extends Component {
   }
 
   handleClick(i) {
-    const squares = this.state.squares.slice()
+    let { squares } = this.state.history[this.state.history.length - 1]
+    squares = squares.slice()
+
     if (this.state.isWinner || squares[i]) {
       return
     } else {
       squares[i] = this.state.xIsNext ? 'X' : 'O'
       this.setState({
-        squares,
+        history: [...this.state.history, { squares }],
         xIsNext: !this.state.xIsNext,
       })
 
@@ -63,72 +121,32 @@ class Board extends Component {
     }
   }
 
-  renderSquare(i) {
-    return (
-      <Square
-        value={this.state.squares[i]}
-        onClick={() => this.handleClick(i)}
-      />
-    )
-  }
-
   isDisabled() {
-    return this.state.squares.every(square => square === null)
+    const { squares } = this.state.history[this.state.history.length - 1]
+    return squares.every(square => square === null)
   }
 
-  resetBoard() {
+  resetGame() {
     this.setState(initialState)
   }
 
   render() {
-    const status = this.state.isWinner
-      ? `Winner: ${this.state.xIsNext ? 'O' : 'X'}`
-      : `Next player: ${this.state.xIsNext ? 'X' : 'O'}`
+    const { squares } = this.state.history[this.state.history.length - 1]
+    const { xIsNext, isWinner } = this.state
 
-    return (
-      <div>
-        <div className="status">{status}</div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
-        <Reset disabled={this.isDisabled()} onClick={this.resetBoard} />
-      </div>
-    )
-  }
-}
-
-class Reset extends Component {
-  render() {
-    return (
-      <button
-        className="btn-reset"
-        disabled={this.props.disabled}
-        onClick={this.props.onClick}
-      >
-        Reset
-      </button>
-    )
-  }
-}
-
-class Game extends Component {
-  render() {
     return (
       <div className="game">
         <div className="game-board">
-          <Board />
+          <Board
+            squares={squares}
+            xIsNext={xIsNext}
+            isWinner={isWinner}
+            handleClick={this.handleClick.bind(this)}
+          />
+          <Reset
+            disabled={this.isDisabled()}
+            onClick={() => this.resetGame()}
+          />
         </div>
         <div className="game-info">
           <div>{/* status */}</div>
