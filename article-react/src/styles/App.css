@@ -1,0 +1,218 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+body {
+  line-height: 1;
+  font-family: sans-serif;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/*end reset*/
+
+h3 {
+  font-size: 22px;
+  margin: 10px 0 0;
+}
+.app {
+  margin: 50px;
+  font-family: "Roboto", sans-serif;
+}
+
+article {
+  width: 750px;
+}
+
+.page {
+  width: 80%;
+  margin: 70px auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.articles-list li {
+  margin-bottom: 10px;
+}
+
+.articles-list li:last-child {
+  margin-bottom: 0;
+}
+
+.link {
+  color: #6383a8;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.link:hover {
+  color: #1d3da5;
+}
+.article-main {
+  display: flex;
+  justify-content: space-between;
+}
+.article-image {
+  max-height: 200px;
+  max-width: 40%;
+}
+
+.article-text {
+  width: 55%;
+}
+.article-text p {
+  margin-bottom: 0.5em;
+  text-align: justify;
+}
+.error {
+  color: #ff0000;
+}
+
+header.page-title {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 125;
+  background: #4a76a8;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  align-items: center;
+}
+
+header.page-title h1 {
+  font-size: 26px;
+  color: #fff;
+}
+
+.article-header h2 {
+  font-size: 22px;
+  margin-bottom: 1em;
+}
+.article-footer {
+  font-size: 14px;
+  margin-top: 2em;
+}
+
+.article-footer .article-details {
+  float: right;
+  width: 55%;
+}
