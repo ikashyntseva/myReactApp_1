@@ -11,9 +11,7 @@ export class Page extends Component {
   renderTemplate = () => {
     const { article, isFetching, error } = this.props;
     if (error) {
-      return (
-        <p className="error">Failed to get article... Please try again later</p>
-      );
+      return <p className="error">{error}</p>;
     }
 
     if (isFetching) {
@@ -26,12 +24,14 @@ export class Page extends Component {
     const { ids } = this.props;
 
     return ids.map((id, index) => {
+      const href = `#article_${index + 1}`;
       return (
         <li key={index}>
           <a
             className="link"
             data-item-id={id}
             onClick={this.onArticleLinkClick}
+            href={href}
           >
             Article {index + 1}
           </a>

@@ -1,28 +1,31 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { getArticleDate } from "../util/helper";
 import { getArtcileNodes } from "../util/helper";
 
-export class Article extends Component {
-  renderArticleNodes(body) {
-    function createNode(nodes) {
-      return nodes.map((node, index) => {
-        let children = [node.innerText];
-        const tag = node.tagName.toLowerCase();
+export const Article = props => {
+  //used functional component as this component doesn't have state
+  function createNode(nodes) {
+    return nodes.map((node, index) => {
+      let children = [node.innerText];
+      const tag = node.tagName.toLowerCase();
 
-        if (node.children.length) {
-          children = createNode(Array.from(node.children));
-        }
+      if (node.children.length) {
+        children = createNode(Array.from(node.children));
+      }
 
-        return React.createElement(tag, { key: index }, ...children);
-      });
-    }
+      return React.createElement(tag, { key: index }, ...children);
+    });
+  }
+
+  function renderArticleNodes(body) {
     const articleNodes = getArtcileNodes(body);
 
     return <React.Fragment>{createNode(articleNodes)}</React.Fragment>;
   }
-  renderArticle() {
-    const { article } = this.props;
+
+  function renderArticle() {
+    const { article } = props;
     const { heading, mainImage, author, date, body } = article;
     const imageSrc = `https://my12.digitalexperience.ibm.com/${mainImage.url}`;
 
@@ -37,9 +40,7 @@ export class Article extends Component {
             src={imageSrc}
             alt={mainImage.asset.altText}
           />
-          <section className="article-text">
-            {this.renderArticleNodes(body)}
-          </section>
+          <section className="article-text">{renderArticleNodes(body)}</section>
         </main>
         <footer className="article-footer">
           <section className="article-details">
@@ -51,7 +52,9 @@ export class Article extends Component {
     );
   }
 
-  render() {
-    return <article>{this.renderArticle()}</article>;
-  }
-}
+  return <article>{renderArticle()}</article>;
+};
+
+Article.propTypes = {
+  article: PropTypes.object.isRequired
+};
