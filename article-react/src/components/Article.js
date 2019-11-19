@@ -1,33 +1,21 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { getArticleDate } from "../util/helper";
-import { getArtcileNodes } from "../util/helper";
 
-export class Article extends Component {
-  renderArticleNodes(body) {
-    function createNode(nodes) {
-      return nodes.map((node, index) => {
-        let children = [node.innerText];
-        const tag = node.tagName.toLowerCase();
+export const Article = props => {
+  //used functional component as this component doesn't have state
 
-        if (node.children.length) {
-          children = createNode(Array.from(node.children));
-        }
-
-        return React.createElement(tag, { key: index }, ...children);
-      });
-    }
-    const articleNodes = getArtcileNodes(body);
-
-    return <React.Fragment>{createNode(articleNodes)}</React.Fragment>;
+  function renderArticleBody(body) {
+    return { __html: body.join("") };
   }
-  renderArticle() {
-    const { article } = this.props;
+
+  function renderArticle() {
+    const { article } = props;
     const { heading, mainImage, author, date, body } = article;
     const imageSrc = `https://my12.digitalexperience.ibm.com/${mainImage.url}`;
 
     return (
-      <React.Fragment>
+      <>
         <header className="article-header">
           <h2>{heading}</h2>
         </header>
@@ -37,9 +25,12 @@ export class Article extends Component {
             src={imageSrc}
             alt={mainImage.asset.altText}
           />
-          <section className="article-text">
-            {this.renderArticleNodes(body)}
-          </section>
+          {body && (
+            <section
+              dangerouslySetInnerHTML={renderArticleBody(body)}
+              className="article-text"
+            />
+          )}
         </main>
         <footer className="article-footer">
           <section className="article-details">
@@ -47,11 +38,13 @@ export class Article extends Component {
             <p className="article-date">{getArticleDate(date)}</p>
           </section>
         </footer>
-      </React.Fragment>
+      </>
     );
   }
 
-  render() {
-    return <article>{this.renderArticle()}</article>;
-  }
-}
+  return <article>{renderArticle()}</article>;
+};
+
+Article.propTypes = {
+  article: PropTypes.object.isRequired
+};

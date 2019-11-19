@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Article } from "../components/Article";
 import PropTypes from "prop-types";
+import Loader from "./Loader";
 
 export class Page extends Component {
   onArticleLinkClick = e => {
@@ -12,26 +13,30 @@ export class Page extends Component {
     const { article, isFetching, error } = this.props;
     if (error) {
       return (
-        <p className="error">Failed to get article... Please try again later</p>
+        <section className="error">
+          <p>{error}</p>
+        </section>
       );
     }
 
     if (isFetching) {
-      return <p>Loading...</p>;
+      return <Loader />;
     } else if (article) {
-      return <Article article={article} />;
+      return <Article key={article.heading} article={article} />;
     }
   };
   renderLinks = () => {
     const { ids } = this.props;
 
     return ids.map((id, index) => {
+      const href = `#article_${index + 1}`;
       return (
         <li key={index}>
           <a
             className="link"
             data-item-id={id}
             onClick={this.onArticleLinkClick}
+            href={href}
           >
             Article {index + 1}
           </a>

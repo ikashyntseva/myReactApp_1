@@ -36,7 +36,9 @@ async function getArticleDetails(id, dispatch) {
       dispatch({
         type: GET_ARTICLE_FAIL,
         error: true,
-        payload: new Error(fetchDetails.status)
+        payload: new Error(
+          `Failed to fetch the article. Error ${fetchDetails.status}`
+        )
       });
     }
   } catch (err) {
