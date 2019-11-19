@@ -24,6 +24,14 @@ export const Article = props => {
     return <React.Fragment>{createNode(articleNodes)}</React.Fragment>;
   }
 
+  function renderArticleBody(body) {
+    if (body && body.length) {
+      return (
+        <section className="article-text">{renderArticleNodes(body)}</section>
+      );
+    }
+  }
+
   function renderArticle() {
     const { article } = props;
     const { heading, mainImage, author, date, body } = article;
@@ -40,7 +48,7 @@ export const Article = props => {
             src={imageSrc}
             alt={mainImage.asset.altText}
           />
-          <section className="article-text">{renderArticleNodes(body)}</section>
+          {renderArticleBody(body)}
         </main>
         <footer className="article-footer">
           <section className="article-details">

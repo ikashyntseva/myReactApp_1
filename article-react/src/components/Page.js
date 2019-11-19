@@ -11,11 +11,32 @@ export class Page extends Component {
   renderTemplate = () => {
     const { article, isFetching, error } = this.props;
     if (error) {
-      return <p className="error">{error}</p>;
+      return (
+        <section className="error">
+          <p>{error}</p>
+        </section>
+      );
     }
 
     if (isFetching) {
-      return <p>Loading...</p>;
+      return (
+        <section className="loading">
+          <div className="lds-default">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </section>
+      );
     } else if (article) {
       return <Article article={article} />;
     }
