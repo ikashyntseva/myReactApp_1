@@ -131,7 +131,7 @@ h3 {
   font-size: 22px;
   margin: 10px 0 0;
 }
-.app {
+#root {
   padding: 50px;
   font-family: "Roboto", sans-serif;
 }

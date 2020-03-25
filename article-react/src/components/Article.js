@@ -1,50 +1,51 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { getArticleDate } from "../util/helper";
 
-export const Article = props => {
+const imageSrcRoot = `https://my12.digitalexperience.ibm.com/`;
+
+function renderArticleBody(body) {
+  return { __html: body.join("") };
+}
+
+export const Article = ({ article }) => {
   //used functional component as this component doesn't have state
 
-  function renderArticleBody(body) {
-    return { __html: body.join("") };
+  if (!article) {
+    return null;
   }
 
-  function renderArticle() {
-    const { article } = props;
-    const { heading, mainImage, author, date, body } = article;
-    const imageSrc = `https://my12.digitalexperience.ibm.com/${mainImage.url}`;
+  const {
+    heading,
+    author,
+    date,
+    body,
+    mainImage: { asset: altText, url: imageUrl }
+  } = article;
 
-    return (
-      <>
-        <header className="article-header">
-          <h2>{heading}</h2>
-        </header>
-        <main className="article-main">
-          <img
-            className="article-image"
-            src={imageSrc}
-            alt={mainImage.asset.altText}
+  return (
+    <article>
+      <header className="article-header">
+        <h2>{heading}</h2>
+      </header>
+      <main className="article-main">
+        <img
+          className="article-image"
+          src={`${imageSrcRoot}${imageUrl}`}
+          alt={altText}
+        />
+        {body && (
+          <section
+            dangerouslySetInnerHTML={renderArticleBody(body)}
+            className="article-text"
           />
-          {body && (
-            <section
-              dangerouslySetInnerHTML={renderArticleBody(body)}
-              className="article-text"
-            />
-          )}
-        </main>
-        <footer className="article-footer">
-          <section className="article-details">
-            <p className="article-author">{author}</p>
-            <p className="article-date">{getArticleDate(date)}</p>
-          </section>
-        </footer>
-      </>
-    );
-  }
-
-  return <article>{renderArticle()}</article>;
-};
-
-Article.propTypes = {
-  article: PropTypes.object.isRequired
+        )}
+      </main>
+      <footer className="article-footer">
+        <section className="article-details">
+          <p className="article-author">{author}</p>
+          <p className="article-date">{getArticleDate(date)}</p>
+        </section>
+      </footer>
+    </article>
+  );
 };

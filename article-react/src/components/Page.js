@@ -1,62 +1,57 @@
-import React, { Component } from "react";
+import React from "react";
 import { Article } from "../components/Article";
-import PropTypes from "prop-types";
 import Loader from "./Loader";
+import useFetch from "../useFetch";
 
-export class Page extends Component {
-  onArticleLinkClick = e => {
-    const id = e.currentTarget.dataset.itemId;
-    this.props.getArticle(id);
-  };
+const articlesIds = [
+  "424d587d-0990-4c07-9c1e-14445e4817f5",
+  "fa9519d5-0363-4b8d-8e1f-627d802c08a8",
+  "567g674a-0867-7h6q-0y2c-098v456s09b4", //just a fake item id
+  "03cabb48-88a4-4e30-a582-8147a18fbe1f" //without text
+];
 
-  renderTemplate = () => {
-    const { article, isFetching, error } = this.props;
-    if (error) {
-      return (
-        <section className="error">
-          <p>{error}</p>
-        </section>
-      );
-    }
+const TopLinks = ({ clickHandler }) => {
+  return (
+    <ul className="articles-list">
+      {articlesIds.map((id, index) => {
+        const href = `#article_${index + 1}`;
+        return (
+          <li key={index}>
+            <a className="link" onClick={() => clickHandler(id)} href={href}>
+              Article {index + 1}
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  );
+};
 
-    if (isFetching) {
-      return <Loader />;
-    } else if (article) {
-      return <Article key={article.heading} article={article} />;
-    }
-  };
-  renderLinks = () => {
-    const { ids } = this.props;
-
-    return ids.map((id, index) => {
-      const href = `#article_${index + 1}`;
-      return (
-        <li key={index}>
-          <a
-            className="link"
-            data-item-id={id}
-            onClick={this.onArticleLinkClick}
-            href={href}
-          >
-            Article {index + 1}
-          </a>
-        </li>
-      );
-    });
-  };
-  render() {
+const PageBody = ({ error, article, isFetching }) => {
+  if (error) {
     return (
-      <div className="page">
-        <ul className="articles-list">{this.renderLinks()}</ul>
-        {this.renderTemplate()}
-      </div>
+      <section className="error">
+        <p>{error}</p>
+      </section>
     );
   }
-}
-
-Page.propTypes = {
-  ids: PropTypes.array.isRequired,
-  getArticle: PropTypes.func.isRequired,
-  error: PropTypes.string,
-  isFetching: PropTypes.bool.isRequired
+  if (isFetching) {
+    return <Loader />;
+  } else if (article) {
+    return <Article key={article.heading} article={article} />;
+  } else {
+    return null;
+  }
 };
+
+const Page = () => {
+  const [article, fetching, error, setArticleId] = useFetch();
+  return (
+    <div className="page">
+      <TopLinks clickHandler={id => setArticleId(id)} />
+      <PageBody isFetching={fetching} error={error} article={article} />
+    </div>
+  );
+};
+
+export default Page;
