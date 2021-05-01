@@ -1,0 +1,12 @@
+.search-field {
+  display: block;
+}
+
+.product-category {
+  text-align: center;
+  font-weight: 700;
+}
+
+[data-stocked='false'] {
+  color: red;
+}
